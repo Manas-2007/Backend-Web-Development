@@ -1,7 +1,6 @@
 //Program of feedback system
 
-const http=require('http');
-const server=http.createServer((req,res)=>{
+const exportfunction=((req,res)=>{
     console.log(req.url,req.method);
 
     //Main Feedback System
@@ -89,16 +88,8 @@ const server=http.createServer((req,res)=>{
         res.setHeader('Location','/');
         return res.end();
 
-        })
-       
-
-
-        
+        })     
     }
 });
 
-//Server PORT
-const PORT=420;
-server.listen(PORT,()=>{
-    console.log(`Server is Live at http://localhost:${PORT}`);
-})
+module.exports=exportfunction;
