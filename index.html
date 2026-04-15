@@ -1,18 +1,174 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Elite Stack Visualizer v2.5</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    body {
+      background: radial-gradient(circle at 50% -20%, #2e1065, #0f172a, #020617);
+      height: 100vh;
+      overflow: hidden;
+    }
+
+    .premium-glass {
+      background: rgba(255, 255, 255, 0.03);
+      backdrop-filter: blur(20px);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.6);
+    }
+
+    .stack-chamber {
+      background: linear-gradient(to bottom, rgba(255,255,255,0.05), transparent);
+      border: 2px solid rgba(255, 255, 255, 0.8);
+      border-top: none;
+      position: relative;
+    }
+
+    .stack-chamber::before {
+      content: "";
+      position: absolute;
+      top: 0; left: 0; width: 100%; height: 100%;
+      background-image: linear-gradient(rgba(255,255,255,0.1) 1px, transparent 1px);
+      background-size: 100% 2.5rem;
+    }
+
+    .stack-chamber::after {
+      content: "";
+      position: absolute;
+      bottom: -2px; left: -5%; width: 110%; height: 3px;
+      background: #fff;
+      box-shadow: 0 0 20px #fff, 0 0 40px #3b82f6;
+    }
+
+    .btn-elite {
+      transition: all 0.25s ease;
+      position: relative;
+      overflow: hidden;
+    }
+
+    /* Premium Shimmer Effect */
+    .btn-elite::after {
+      content: "";
+      position: absolute;
+      top: 0; left: -100%; width: 100%; height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+      transition: 0.5s;
+    }
+
+    .btn-elite:hover::after {
+      left: 100%;
+    }
+
+    .btn-elite:hover {
+      transform: translateY(-2px) scale(1.02);
+      filter: brightness(1.2);
+      box-shadow: 0 0 15px var(--btn-glow);
+    }
+
+    .btn-elite:active {
+      transform: scale(0.96);
+    }
+
+    .rgb-border-input {
+      background: rgba(0, 0, 0, 0.7);
+      border: 2px solid transparent;
+      background-image: linear-gradient(rgba(0,0,0,1), rgba(0,0,0,1)), 
+                        linear-gradient(to right, #ff0080, #7928ca, #4299e1, #ff0080);
+      background-origin: border-box;
+      background-clip: padding-box, border-box;
+      background-size: 200% 100%;
+      animation: move-gradient 3s linear infinite;
+    }
+
+    @keyframes move-gradient {
+      0% { background-position: 0% 50%; }
+      100% { background-position: 200% 50%; }
+    }
+
+    .stack-item {
+      background: linear-gradient(135deg, rgba(255,255,255,0.1), rgba(255,255,255,0.02));
+      border: 1px solid rgba(255, 255, 255, 0.3);
+      animation: popIn 0.4s ease-out;
+    }
+
+    @keyframes popIn {
+      from { transform: translateY(-20px); opacity: 0; }
+      to { transform: translateY(0); opacity: 1; }
+    }
+  </style>
 </head>
-<body>
-    <nav style="display: flex; justify-content: space-evenly; text-decoration: none; color: green; font-size: larger;">
-        <a href="/">HOME</a>
-        <a href="/my-cart">MY CART</a>
-        <a href="/library">LIBRARY</a>
-        <a href="/tools">TOOLS</a>
-        <a href="/features">FEATURES</a>
-    </nav>
-    
+<body class="text-white flex flex-col items-center p-4">
+
+  <header class="mb-4 text-center">
+    <h1 class="text-3xl font-bold tracking-tight bg-clip-text text-transparent bg-gradient-to-r from-blue-400 via-white to-purple-500">
+      STACK ENGINE
+    </h1>
+  </header>
+
+  <main class="flex gap-4 w-full max-w-6xl h-[85vh]">
+
+    <div class="w-1/3 premium-glass rounded-3xl border-white/30 flex flex-col items-center p-4">
+      <h2 class="text-[14px] text-white tracking-widest mb-4 uppercase">Memory Stack</h2>
+      
+      <div id="stack" class="stack-chamber w-28 flex-1 rounded-b-xl flex flex-col-reverse gap-2 p-3">
+        <div class="stack-item py-2 text-center text-sm rounded-lg">2</div>
+        <div class="stack-item py-2 text-center text-sm rounded-lg">3</div>
+        <div class="stack-item py-2 text-center text-sm rounded-lg">5</div>
+      </div>
+    </div>
+
+    <div class="flex-1 premium-glass rounded-3xl border-white/30 p-6 flex flex-col justify-between">
+      
+      <div>
+        <label class="block text-[12px] font-mono text-blue-400 uppercase tracking-widest mb-2">Input Stream</label>
+        <input 
+          type="text" 
+          placeholder="Enter Postfix Expression..."
+          class="rgb-border-input w-full p-4 rounded-xl text-sm mb-6 outline-none font-mono text-white"
+        />
+
+        <div class="grid grid-cols-2 gap-3 text-xs">
+          <button style="--btn-glow:#2563eb" class="btn-elite bg-blue-600/80 h-11 rounded-xl flex items-center justify-center font-bold tracking-wider uppercase">Evaluate</button>
+          <button style="--btn-glow:#059669" class="btn-elite bg-emerald-600/80 h-11 rounded-xl flex items-center justify-center font-bold tracking-wider uppercase">Push</button>
+          <button style="--btn-glow:#dc2626" class="btn-elite bg-rose-600/80 h-11 rounded-xl flex items-center justify-center font-bold tracking-wider uppercase">Pop</button>
+          <button style="--btn-glow:#d97706" class="btn-elite bg-amber-500 h-11 rounded-xl flex items-center justify-center text-black font-black tracking-wider uppercase">Peek</button>
+          
+          <button style="--btn-glow:#8b5cf6" class="btn-elite bg-violet-600/80 h-11 rounded-xl flex items-center justify-center font-bold tracking-wider uppercase">Even Stack</button>
+          <button style="--btn-glow:#ec4899" class="btn-elite bg-pink-600/80 h-11 rounded-xl flex items-center justify-center font-bold tracking-wider uppercase">Odd Stack</button>
+          
+          <button style="--btn-glow:#7c3aed" class="btn-elite bg-purple-600/80 h-11 rounded-xl flex items-center justify-center font-bold tracking-wider uppercase">IsEmpty</button>
+          <button style="--btn-glow:#db2777" class="btn-elite bg-fuchsia-600/80 h-11 rounded-xl flex items-center justify-center font-bold tracking-wider uppercase">IsFull</button>
+          
+          <button style="--btn-glow:#ffffff" class="btn-elite col-span-2 bg-white/5 border border-white h-11 rounded-xl flex items-center justify-center font-mono text-[10px] tracking-[0.3em] uppercase hover:bg-white/10">
+            Traverse Stack
+          </button>
+        </div>
+      </div>
+
+      <div class="mt-6 bg-black/60 rounded-2xl p-5 border border-white/10 shadow-2xl font-mono">
+        <div class="flex items-center justify-between mb-3">
+          <div class="flex items-center gap-2">
+            <span class="w-2 h-2 bg-emerald-500 rounded-full animate-ping"></span>
+            <span class="text-[10px] text-emerald-500 uppercase font-bold tracking-tighter">Live Output</span>
+          </div>
+          <span class="text-[9px] text-white/20 italic">BUFFER_HEX_0x7</span>
+        </div>
+        <div class="space-y-1">
+          <p class="text-white/40 text-[11px]">> Initializing visual buffers...</p>
+          <p class="text-emerald-400 text-sm font-bold">> <span class="text-white">System Ready. Awaiting user input_</span></p>
+        </div>
+      </div>
+
+    </div>
+
+  </main>
+
+  <footer class="mt-auto py-2 text-[9px] text-white/20 uppercase tracking-[1em]">
+    Neural Logic Processor
+  </footer>
+
+  <script src="script.js"></script>
 </body>
 </html>

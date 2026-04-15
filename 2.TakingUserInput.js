@@ -1,66 +1,85 @@
-//Using router
-const http = require('http');
+const http=require('http');
+const fs=require('fs');
+const querystring=require('querystring');
+
 const server=http.createServer((req,res)=>{
-    console.log(req.headers,req.url);
+    console.log(req.url,req.method);
 
-    //Routing Response
-    if(req.url==='/')
-    {
-        res.setHeader("Content-Type","text/html");
-        res.write('<html>');
-        res.write('<head><title>Server Designing</title></head>')
-        res.write('<body><h1><center>Enter your details:</center></h1><br/>')
-        res.write(`
-            
-            <form action="/submit" method="POST">
-                <center>
-                <input 
-                    type="text" 
-                    name="username" 
-                    placeholder="Enter Username" 
-                    required
-                />
-                <br/><br/>
+    //User Interation via Server
+   
 
-                <label>
-                    <input type="radio" name="gender" value="male" required/>
-                    Male
-                </label>
+        if(req.url==="/")
+        {
+            res.setHeader('Content-Type','text/html');
+    res.write(`
+        <!DOCTYPE html>
+<html>
+<head>
+    <title>Simple Form</title>
+</head>
+<body>
 
-                <label>
-                    <input type="radio" name="gender" value="female"/>
-                    Female
-                </label>
+<center>
+    <h2>User Form</h2>
 
-                <br/><br/>
+    <form action="/submit-tab" method="POST">
+        <label>Name:</label><br>
+        <input type="text" placeholder="Enter your name" name="Username"><br><br>
 
-                <button type="submit">Submit</button></center>
+        <label>Password:</label><br>
+        <input type="password" placeholder="Enter your password" name="Password"><br><br>
 
-            </form>`)
-        res.write('</body></html>');
-        return res.end();
-    }
+        <label>Gender:</label><br>
+        
+        <input type="radio" name="gender" value="Male" id="male">
+        <label for="male">Male</label><br>
 
-    //Re-directing logic implementation
-    else if(req.url==="/submit" && req.method==='POST')
-    {
-        res.setHeader('Location','/');
-        res.statusCode=302;
-        return res.end();
-    }
-    
-    else
-    {
-        res.setHeader("Content-Type","text/html");
-        res.write('<html>');
-        res.write('<head><title>Server Designing</title></head>')
-        res.write('<body><h1>This is the End of the Webpage...</h1></body>')
-        res.write('</html>');
-        return res.end();
-    }
+        <input type="radio" name="gender" value="Female" id="female">
+        <label for="female">Female</label><br>
+<br><br>
+
+        <input type="submit" value="Submit">
+    </form>
+</center>
+
+</body>
+</html>`);
+
+        res.write('<br/><br/><h1>Kindly Fill out the above form : </h1>')
+            return res.end();
+        }
+        else if(req.url==="/submit-tab")
+        {
+            if(req.method==="POST")
+            {
+                const items=[];
+                req.on("data",(chunk)=>{
+                    items.push(chunk);
+                })
+
+                req.on("end",()=>{
+                    const finaldata=Buffer.concat(items).toString();
+                    const result=querystring.parse(finaldata);
+                    console.log(result);
+                     fs.writeFileSync("data.txt",result);
+                //Re-Directing to Homepage
+                res.statusCode=302; 
+                res.setHeader('Location','/');
+                return res.end();
+                })
+
+                
+            }
+            else
+            {
+                res.write('Kindly Fill out Form first.....!');
+                return res.end();
+            }
+        }
 });
 
-const PORT=1000;
+//Server Port Connection
+const PORT=301;
 server.listen(PORT,()=>{
-    console.log(`http://localhost:${PORT}`);
+    console.log(`Server is Live at http://localhost:${PORT}`);
 });
