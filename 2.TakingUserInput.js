@@ -1,6 +1,5 @@
 const http=require('http');
 const fs=require('fs');
-const querystring=require('querystring');
 
 const server=http.createServer((req,res)=>{
     console.log(req.url,req.method);
@@ -59,9 +58,19 @@ const server=http.createServer((req,res)=>{
 
                 req.on("end",()=>{
                     const finaldata=Buffer.concat(items).toString();
-                    const result=querystring.parse(finaldata);
+                    console.log(finaldata);
+
+                    //Parsing the data
+                    const params=new URLSearchParams(finaldata);
+                    const result={};
+                    for(let [key,value] of params.entries())
+                    {
+                        result[key]=value;
+                    }
+
                     console.log(result);
-                     fs.writeFileSync("data.txt",result);
+
+                     fs.appendFileSync("data.txt",JSON.stringify(result)+"/n");
                 //Re-Directing to Homepage
                 res.statusCode=302; 
                 res.setHeader('Location','/');
@@ -79,7 +88,7 @@ const server=http.createServer((req,res)=>{
 });
 
 //Server Port Connection
-const PORT=301;
+const PORT=302;
 server.listen(PORT,()=>{
     console.log(`Server is Live at http://localhost:${PORT}`);
 });
