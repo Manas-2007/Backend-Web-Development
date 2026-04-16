@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Add Home - Airbnb Project</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f5f5f5;
+            margin: 0;
+            text-align: center;
+        }
+
+        .navbar {
+            background-color: #ff385c;
+            padding: 15px;
+            color: white;
+            font-size: 20px;
+            font-weight: bold;
+        }
+
+        .form-container {
+            background: white;
+            width: 400px;
+            margin: 80px auto;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0px 0px 10px rgba(0,0,0,0.1);
+        }
+
+        h2 {
+            margin-bottom: 20px;
+            color: #333;
+        }
+
+        input {
+            width: 90%;
+            padding: 10px;
+            margin: 10px 0;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+        }
+
+        button {
+            width: 95%;
+            padding: 12px;
+            background-color: #ff385c;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #e03150;
+        }
+
+        a {
+            display: block;
+            margin-top: 15px;
+            color: #ff385c;
+            text-decoration: none;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="navbar">
+        Airbnb Project
+    </div>
+
+    <div class="form-container">
+
+        <h2>Add Your Home 🏠</h2>
+
+        <form action="/home-tour" method="POST">
+
+            <input type="text" name="houseName" placeholder="Enter House Name" required />
+
+            <input type="text" name="location" placeholder="Enter Location" required />
+
+            <input type="number" name="price" placeholder="Enter Price per night" required />
+
+            <button type="submit">Submit Home</button>
+
+        </form>
+
+        <a href="/">← Back to Home</a>
+
+    </div>
+
+</body>
+</html>

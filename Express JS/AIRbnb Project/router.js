@@ -1,27 +1,19 @@
 const express = require('express');
+const path=require('path');
 const router = express.Router();
 
 // Home page
 router.get('/', (req, res) => {
-    res.send(`
-        <h1>Welcome to AIRbnb Project</h1>
-        <a href="/home-tour">Add Home</a>
-    `);
+    res.sendFile(
+       path.join(__dirname,'home.html')
+    );
 });
 
 // Form page
 router.get('/home-tour', (req, res) => {
-    res.send(`
-        <h1>Fill Property Form</h1>
-
-        <form action="/home-tour" method="POST">
-            <input type="text" name="houseName" placeholder="House Name" />
-            <br><br>
-            <input type="text" name="location" placeholder="Location" />
-            <br><br>
-            <button type="submit">Submit</button>
-        </form>
-    `);
+   res.sendFile(
+       path.join(__dirname,'home.html')
+    );
 });
 
 // Form submit
