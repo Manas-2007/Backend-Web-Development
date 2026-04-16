@@ -5,7 +5,15 @@ app.listen(port,()=>{
     console.log(`http://localhost:${port}`);
 });
 
-app.use((req,res,next)=>{
-    console.log("First Middleware",req.url,req.method);
-    res.send("<h1>Hello World using Express</h1>");
+//Route Hondling
+app.get('/',(req,res)=>{
+    console.log("This is home page");
+    res.send("<h1>This is home page</h1>");
 });
+
+app.get('/submit-details',(req,res)=>{
+    console.log("This is Submit Details page");
+    res.send("<h1>This is Submit page</h1>") ;
+});
+
+
