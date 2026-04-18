@@ -4,12 +4,11 @@ const PORT = 3002;
 
 const userRoutes = require("./routes/userRoutes");
 
-// Middleware
 app.use(express.urlencoded({ extended: true }));
 
-// Use routes
 app.use("/", userRoutes);
 
+//Started server
 app.listen(PORT, () => {
-    console.log(`Server Live at http://localhost:${PORT}`);
+    console.log(`Server running at http://localhost:${PORT}`);
 });
