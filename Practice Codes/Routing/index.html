@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Routing Practice</title>
+</head>
+
+<body>
+
+    <!-- ================= STUDENT SECTION ================= -->
+    <h2>Student Section 👨‍🎓</h2>
+
+    <!-- Add Student -->
+    <h3>Add Student</h3>
+    <form action="/students/add" method="POST">
+
+        <input type="text" name="name" placeholder="Student Name" required>
+        <br><br>
+
+        <input type="email" name="email" placeholder="Student Email" required>
+        <br><br>
+
+        <button type="submit">Add Student</button>
+
+    </form>
+
+    <br>
+
+    <!-- View Students -->
+    <form action="/students/list" method="GET">
+        <button type="submit">View Students</button>
+    </form>
+
+    <hr>
+
+    <!-- ================= COURSE SECTION ================= -->
+    <h2>Course Section 📚</h2>
+
+    <!-- Add Course -->
+    <h3>Add Course</h3>
+    <form action="/courses/add" method="POST">
+
+        <input type="text" name="courseName" placeholder="Course Name" required>
+        <br><br>
+
+        <input type="text" name="duration" placeholder="Duration (e.g. 3 months)" required>
+        <br><br>
+
+        <button type="submit">Add Course</button>
+
+    </form>
+
+    <br>
+
+    <!-- View Courses -->
+    <form action="/courses/list" method="GET">
+        <button type="submit">View Courses</button>
+    </form>
+
+</body>
+</html>
