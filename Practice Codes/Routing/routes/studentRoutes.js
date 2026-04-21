@@ -1,23 +1,12 @@
 const express = require('express');
 const router = express.Router();
 
-// temporary storage
-const students = [];
+const studentController = require('../controllers/studentController');
 
 // Add student
-router.post('/add', (req, res) => {
-    students.push({
-        Name: req.body.name,
-        Email: req.body.email
-    });
+router.post('/add', studentController.addStudent);
 
-    console.log("Student added:", students);
-    res.redirect('/');
-});
-
-// Display students
-router.get('/list', (req, res) => {
-    res.json(students);
-});
+// List students
+router.get('/list', studentController.getStudents);
 
 module.exports = router;

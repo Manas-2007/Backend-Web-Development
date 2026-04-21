@@ -1,9 +1,7 @@
-const express = require('express');
-const router = express.Router();
+const courses = require('../models/courseModel');
 
-const courses = [];
-
-router.post('/add', (req, res) => {
+// Add course
+exports.addCourse = (req, res) => {
     courses.push({
         Course_Name: req.body.courseName,
         Duration: req.body.duration
@@ -11,10 +9,9 @@ router.post('/add', (req, res) => {
 
     console.log("Course added:", courses);
     res.redirect('/');
-});
+};
 
-router.get('/list', (req, res) => {
+// Get courses
+exports.getCourses = (req, res) => {
     res.json(courses);
-});
-
-module.exports = router;
+};

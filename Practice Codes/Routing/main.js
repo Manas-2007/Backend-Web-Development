@@ -7,20 +7,19 @@ const PORT = 3000;
 // Middleware
 app.use(express.urlencoded({ extended: true }));
 
-// Routes import
+// Routes
 const studentRoutes = require('./routes/studentRoutes');
-const courseRoutes = require('./routes/courseRoute');
+const courseRoutes = require('./routes/courseRoutes');
 
-// Mount routes
 app.use('/students', studentRoutes);
 app.use('/courses', courseRoutes);
 
-// UI route
+// UI
 app.get('/', (req, res) => {
-    res.sendFile(path.join(__dirname, 'index.html'));
+    res.sendFile(path.join(__dirname, 'views', 'index.html'));
 });
 
-// Server start
+// Server
 app.listen(PORT, () => {
     console.log(`Server is LIVE at http://localhost:${PORT}`);
 });
