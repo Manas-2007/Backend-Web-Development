@@ -29,5 +29,10 @@ app.post('/save',(req,res)=>{
         Address:req.body.address     
     });
         console.log(users);
-        res.json(users);
+        res.redirect('/');
+});
+
+//Adding 404 page error
+app.use((req,res)=>{
+    res.status(404).send("<h1>Page is NOT available with current URL!........</h1>");
 });
