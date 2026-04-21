@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Student Portal</title>
+
+    <style>
+        *{
+            margin:0;
+            padding:0;
+            box-sizing:border-box;
+            font-family:Arial;
+        }
+
+        body{
+            height:100vh;
+            display:flex;
+            justify-content:center;
+            align-items:center;
+            background:#f4f4f4;
+        }
+
+        .container{
+            display:flex;
+            width:90%;
+            max-width:1000px;
+            background:white;
+            border-radius:10px;
+            overflow:hidden;
+            box-shadow:0 0 10px rgba(0,0,0,0.1);
+        }
+
+        .left, .right{
+            flex:1;
+            padding:20px;
+        }
+
+        h2{
+            margin-bottom:10px;
+            font-size:18px;
+        }
+
+        input, button{
+            width:100%;
+            padding:8px;
+            margin:5px 0;
+        }
+
+        button{
+            background:#4CAF50;
+            color:white;
+            border:none;
+            cursor:pointer;
+        }
+
+        button:hover{
+            background:#45a049;
+        }
+
+        .section{
+            margin-bottom:20px;
+        }
+
+    </style>
+</head>
+
+<body>
+
+<div class="container">
+
+    <!-- LEFT SIDE -->
+    <div class="left">
+
+        <div class="section">
+            <h2>Add Student</h2>
+            <form action="/students/add" method="POST">
+                <input type="text" name="name" placeholder="Name" required>
+                <input type="email" name="email" placeholder="Email" required>
+                <input type="number" name="age" placeholder="Age" required>
+                <button type="submit">Add Student</button>
+            </form>
+        </div>
+
+        <div class="section">
+            <h2>Add Course</h2>
+            <form action="/courses/add" method="POST">
+                <input type="text" name="courseName" placeholder="Course Name" required>
+                <input type="text" name="duration" placeholder="Duration" required>
+                <button type="submit">Add Course</button>
+            </form>
+        </div>
+
+    </div>
+
+    <!-- RIGHT SIDE -->
+    <div class="right">
+
+        <div class="section">
+            <h2>Actions</h2>
+
+            <form action="/students/list" method="GET">
+                <button>View Students</button>
+            </form>
+
+            <form action="/courses/list" method="GET">
+                <button>View Courses</button>
+            </form>
+
+            <form action="/stats" method="GET">
+                <button>System Stats</button>
+            </form>
+        </div>
+
+    </div>
+
+</div>
+
+</body>
+</html>
