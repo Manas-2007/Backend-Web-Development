@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>Social Feed System</title>
+
+<style>
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family: "Segoe UI", Arial, sans-serif;
+}
+
+body{
+    height:100vh;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    background:linear-gradient(135deg,#eef2f7,#dfe9f3);
+}
+
+/* MAIN CONTAINER */
+.container{
+    display:flex;
+    width:96%;
+    max-width:1200px;
+    height:85vh;
+    background:white;
+    border-radius:16px;
+    overflow:hidden;
+    box-shadow:0 10px 30px rgba(0,0,0,0.12);
+}
+
+/* COLUMNS */
+.left, .middle, .right{
+    flex:1;
+    padding:18px;
+    display:flex;
+    flex-direction:column;
+    gap:12px;
+}
+
+/* HEADINGS */
+h2{
+    font-size:14px;
+    color:#2c3e50;
+    letter-spacing:0.3px;
+}
+
+/* CARD STYLE */
+.box{
+    background:#f9fafc;
+    padding:12px;
+    border-radius:12px;
+    box-shadow:0 3px 10px rgba(0,0,0,0.05);
+}
+
+/* INPUTS */
+input, textarea{
+    width:100%;
+    padding:8px;
+    margin-top:6px;
+    border:1px solid #e0e6ed;
+    border-radius:8px;
+    font-size:13px;
+    outline:none;
+}
+
+textarea{
+    height:70px;
+    resize:none;
+}
+
+/* BUTTONS */
+button{
+    width:100%;
+    margin-top:8px;
+    padding:9px;
+    border:none;
+    border-radius:8px;
+    background:linear-gradient(135deg,#ff4757,#ff6b81);
+    color:white;
+    font-size:13px;
+    cursor:pointer;
+    transition:0.2s ease;
+}
+
+button:hover{
+    transform:translateY(-2px);
+    box-shadow:0 6px 12px rgba(255,71,87,0.3);
+}
+
+/* DIVIDER */
+hr{
+    border:none;
+    height:1px;
+    background:#e6e6e6;
+}
+
+/* SMALL TEXT STYLE */
+.small-note{
+    font-size:11px;
+    color:#7f8c8d;
+    margin-top:4px;
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+    <!-- LEFT -->
+    <div class="left">
+
+        <div class="box">
+            <h2>Create Post</h2>
+
+            <form action="/posts/add" method="POST">
+                <input type="text" name="title" placeholder="Post Title">
+                <textarea name="content" placeholder="What's on your mind?"></textarea>
+                <button>Publish Post</button>
+            </form>
+            <div class="small-note">Share thoughts instantly 🚀</div>
+        </div>
+
+        <div class="box">
+            <h2>Actions</h2>
+            <form action="/posts" method="GET">
+                <button>View Feed</button>
+            </form>
+
+            <form action="/stats" method="GET">
+                <button>System Stats</button>
+            </form>
+        </div>
+
+    </div>
+
+    <!-- MIDDLE -->
+    <div class="middle">
+
+        <div class="box">
+            <h2>Open Post</h2>
+
+            <form onsubmit="this.action='/posts/'+this.id.value">
+                <input type="number" name="id" placeholder="Enter Post ID">
+                <button>Open</button>
+            </form>
+        </div>
+
+        <div class="box">
+            <h2>Like Post</h2>
+
+            <form onsubmit="this.action='/posts/like/'+this.id.value">
+                <input type="number" name="id" placeholder="Enter Post ID">
+                <button>Like ❤️</button>
+            </form>
+        </div>
+
+    </div>
+
+    <!-- RIGHT -->
+    <div class="right">
+
+        <div class="box">
+            <h2>Add Comment</h2>
+
+            <form onsubmit="this.action='/comment/add/'+this.postId.value" method="POST">
+                <input type="number" name="postId" placeholder="Post ID">
+                <input type="text" name="comment" placeholder="Write comment...">
+                <button>Add Comment</button>
+            </form>
+        </div>
+
+        <div class="box">
+            <h2>Quick Access</h2>
+
+            <form action="/feed" method="GET">
+                <button>Full Feed</button>
+            </form>
+        </div>
+
+    </div>
+
+</div>
+
+</body>
+</html>
