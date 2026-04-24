@@ -1,62 +1,60 @@
-const express = require('express');
-const mongoose = require('mongoose');
-const path = require('path');
+const express=require('express');
+const path=require('path');
+const mongoose=require('mongoose');
+const PORT=2000;
+const app=express();
 const dns=require('dns');
-const app = express();
-const PORT = 3000;
-//Changing DNS
 
-dns.setServers(["1.1.1.1","8.8.8.8"]);      
-
-
-/* ---------------- Middleware ---------------- */
-app.use(express.urlencoded({ extended: true }));
-
-/* ---------------- MongoDB Connection ---------------- */
-mongoose.connect('mongodb+srv://manas:manas@clusterdb.5dbbok0.mongodb.net/ProjectDB?retryWrites=true&w=majority')      
-.then(() => console.log('MongoDB Connected Successfully'))
-.catch(err => console.log('MongoDB Error:', err));
-
-/* ---------------- Schema + Model ---------------- */
-const userSchema = new mongoose.Schema({
-    name: String,
-    email: String
+//DNS Server
+dns.setServers([
+    '1.1.1.1',
+    '8.8.8.8'
+])
+app.listen(PORT,()=>{
+    console.log(`Server is Live at http://localhost:${PORT}`);
+});
+app.use(express.urlencoded({extended:true}));
+app.get('/',(req,res)=>{
+    res.sendFile(path.join(__dirname,"index.html"));
 });
 
-const User = mongoose.model('User', userSchema);
+//Connection String
+mongoose.connect("mongodb+srv://manas:manas@clusterdb.5dbbok0.mongodb.net/StudentForm?appName=ClusterDB")
+.then(()=>{
+    console.log("DBMS connected to Server successfully");
+})
+.catch((err)=>{
+    console.log("Connection with DBMS Failed",err);
+})
 
-/* ---------------- Routes ---------------- */
-
-// Home Page
-app.get('/', (req, res) => {
-    res.sendFile(path.join(__dirname, 'index.html'));
+//Schema Creation
+const user=new mongoose.Schema({
+    Name:String,
+    Email:String,
+    Age:Number,
+    Course:String
 });
+const List=mongoose.model('List',user);
 
-// Save Data to MongoDB
-app.post('/submit', async (req, res) => {
-    try {
-        const newUser = new User({
-            name: req.body.name,
-            email: req.body.email
+//Adding Data in Database
+app.post('/student',async(req,res)=>{
+    try{
+        const newStudent=new List({
+            Name:req.body.name,
+            Email:req.body.email,
+            Age:req.body.age,
+            Course:req.body.course
         });
 
-        await newUser.save();
-
-        console.log("Data Saved:", newUser);
+        await newStudent.save();
+        console.log("Student data added successfully in DBMS");
         res.redirect('/');
-    } catch (error) {
-        console.log("Error saving data:", error);
-        res.status(500).send("Something went wrong");
     }
-});
 
-/* ---------------- Server Start ---------------- */
-app.listen(PORT, () => {
-    console.log(`Server Live at http://localhost:${PORT}`);
-});
-
-
-function add(a,b)
-{
-    return a+b;
-}
+    catch(err)
+    {
+        console.log("Data Sending Failed",err);
+        res.send("Error in Data Sending to DBMS")
+    }
+    
+})
