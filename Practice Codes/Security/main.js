@@ -1,7 +1,7 @@
 const express = require('express');
 const path = require('path');
 const session = require('express-session');
-
+const { body, validationResult } = require('express-validator');
 const app = express();
 const PORT = 2000;
 
@@ -19,10 +19,9 @@ app.use(session({
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views'));
 
-// Fake DB (for learning)
+// Fake DB
 let users = [];
 
-// Start server
 app.listen(PORT, () => {
     console.log(`Server running at http://localhost:${PORT}`);
 });
@@ -41,15 +40,30 @@ app.get('/register', (req, res) => {
     res.render('register');
 });
 
-// REGISTER POST
-app.post('/register', (req, res) => {
 
-    const { email, password } = req.body;
+// REGISTER POST (✔ WITH VALIDATION)
+app.post('/register',
+    [
+        body('email').isEmail().withMessage('Invalid Email'),
+        body('password').isLength({ min: 5 }).withMessage('Password must be at least 5 characters')
+    ],
+    (req, res) => {
 
-    users.push({ email, password });
+        const errors = validationResult(req);
 
-    res.redirect('/login');
-});
+        if (!errors.isEmpty()) {
+            return res.status(400).json({
+                errors: errors.array()
+            });
+        }
+
+        const { email, password } = req.body;
+
+        users.push({ email, password });
+
+        res.redirect('/login');
+    }
+);
 
 
 // 🔐 LOGIN PAGE
@@ -57,22 +71,37 @@ app.get('/login', (req, res) => {
     res.render('login');
 });
 
-// LOGIN POST
-app.post('/login', (req, res) => {
 
-    const { email, password } = req.body;
+// LOGIN POST (✔ WITH VALIDATION)
+app.post('/login',
+    [
+        body('email').isEmail().withMessage('Invalid Email'),
+        body('password').notEmpty().withMessage('Password required')
+    ],
+    (req, res) => {
 
-    const user = users.find(u => u.email === email && u.password === password);
+        const errors = validationResult(req);
 
-    if (!user) {
-        return res.send("Invalid credentials ❌");
+        if (!errors.isEmpty()) {
+            return res.status(400).json({
+                errors: errors.array()
+            });
+        }
+
+        const { email, password } = req.body;
+
+        const user = users.find(u => u.email === email && u.password === password);
+
+        if (!user) {
+            return res.send("Invalid credentials ❌");
+        }
+
+        // SESSION CREATE
+        req.session.user = user;
+
+        res.redirect('/dashboard');
     }
-
-    // SESSION CREATE
-    req.session.user = user;
-
-    res.redirect('/dashboard');
-});
+);
 
 
 // 📊 DASHBOARD (PROTECTED)
