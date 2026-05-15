@@ -1,3 +1,5 @@
+//Write a program in JS using OOPs concept for Management of Student Management System
+
 const prompt = require('prompt-sync')();
 
 class Student {
