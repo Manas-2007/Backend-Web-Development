@@ -7,7 +7,7 @@ const bcrypt = require('bcrypt');
 const { body, validationResult } = require('express-validator');
 const app = express();
 const PORT = 2000;
-
+  
 // DNS setup
 dns.setServers(['1.1.1.1', '8.8.8.8']);
 

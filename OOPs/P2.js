@@ -1,32 +1,9 @@
 //Write a program using OOPs concepts for Employee Management System
 
 const prompt=require('prompt-sync')();
-class Employee{
-    constructor(id,name,dept,salary,designation)
-    {
-        this.id=id;
-        this.name=name;
-        this.dept=dept;
-        this.salary=salary;
-        this.designation=designation;
-    }
-    Input()
-    {
-        this.id=Number(prompt("ID : "));
-        this.name=prompt("Name : ");
-        this.dept=prompt("Department : ");
-        this.salary=Number(prompt("Salary : "));
-        this.designation=prompt("Designation : ");
-    }
-    Display()
-    {
-        console.log(`ID             :       ${this.id}`);
-        console.log(`NAME           :       ${this.name}`);
-        console.log(`DEPARTMENT     :       ${this.dept}`);
-        console.log(`SALARY         :       ${this.salary}`);
-        console.log(`DESIGNATION    :       ${this.designation}`);
-    }
-};
+const Employee=require('./module');
+
+
 let choice;
 let data=[];
 do{
